@@ -12,7 +12,6 @@
             --mint-subtle: linear-gradient(135deg, #FFFFFF 0%, #FFF0F5 100%);
             --pink-subtle: linear-gradient(135deg, #FDF6F8 0%, #FCE4EC 100%);
             --gold-editorial: #D4AF37;
-            --gold-gradient: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
             --text-dark: #2A2A2A;      
             --text-muted: #6B6B6B;
             --black-theme: #1a1a1a;
@@ -42,12 +41,12 @@
             right: 30px;
             width: 55px;
             height: 55px;
-            background: var(--gold-gradient);
+            background-color: var(--gold-editorial);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.5);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
             z-index: 2000;
             cursor: pointer;
             opacity: 0;
@@ -66,26 +65,14 @@
 
         .sticky-music-btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.6);
+            background-color: #C5A059;
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.5);
         }
 
         .sticky-music-btn svg {
             width: 20px;
             height: 20px;
             fill: #fff;
-        }
-
-        /* --- EFECTO TEXTO DORADO METÁLICO --- */
-        .gold-text {
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: shine 5s linear infinite;
-        }
-
-        @keyframes shine {
-            to { background-position: 200% center; }
         }
 
         /* --- SOBRE EDITORIAL --- */
@@ -156,13 +143,13 @@
 
         .wax-seal {
             position: absolute; top: 90px; left: 50%; transform: translateX(-50%);
-            width: 50px; height: 50px; background: var(--gold-gradient);
+            width: 50px; height: 50px; background-color: var(--gold-editorial);
             border-radius: 50%; z-index: 5; display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4), inset 0 0 10px rgba(0,0,0,0.1); 
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4), inset 0 0 10px rgba(0,0,0,0.05); 
             transition: opacity 0.5s ease 0.1s, transform 0.5s ease;
         }
         
-        .wax-seal svg { width: 26px; height: 26px; fill: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2)); }
+        .wax-seal svg { width: 26px; height: 26px; fill: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); }
         .envelope-wrapper.open .wax-seal { opacity: 0; transform: translateX(-50%) scale(0.5); pointer-events: none; }
 
         .hint-text {
@@ -210,11 +197,6 @@
         .bg-pink { background: var(--pink-subtle); }
         .bg-black { background-color: var(--black-theme); color: #ffffff; }
 
-        /* Divisores Ornamentales */
-        .ornament-divider {
-            width: 180px; height: auto; margin: 30px auto 40px auto; fill: var(--gold-editorial); opacity: 0.7;
-        }
-
         /* Tipografía Editorial */
         .tag-line {
             font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 5px;
@@ -223,7 +205,7 @@
 
         .title-script {
             font-family: 'Pinyon Script', cursive; font-size: 95px;
-            color: var(--text-dark); margin-bottom: 10px; line-height: 1.1; font-weight: 400;
+            color: var(--gold-editorial); margin-bottom: 10px; line-height: 1.1; font-weight: 400;
         }
 
         .body-serif {
@@ -232,9 +214,7 @@
             max-width: 650px; padding: 0 20px; font-weight: 500;
         }
 
-        .bg-black .title-script, .bg-black .body-serif { color: #ffffff; }
-
-        .line-horizontal { width: 80px; height: 2px; background: var(--gold-gradient); margin: 50px auto; border-radius: 2px; }
+        .line-horizontal { width: 80px; height: 2px; background-color: var(--gold-editorial); margin: 50px auto; border-radius: 2px; }
 
         /* Información Textual */
         .info-title {
@@ -257,31 +237,27 @@
 
         /* Botones Minimalistas Editoriales */
         .btn-solid {
-            display: inline-block; background: var(--gold-gradient); color: #fff;
+            display: inline-block; background-color: var(--gold-editorial); color: #fff;
             padding: 18px 40px; font-family: 'Montserrat', sans-serif; font-size: 13px;
             font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
             text-decoration: none; border: none; cursor: pointer; border-radius: 30px;
             transition: all 0.4s ease; margin-top: 30px; position: relative; z-index: 5;
-            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
         }
         
-        .btn-solid:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.5); }
+        .btn-solid:hover { background-color: #C5A059; transform: translateY(-3px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.35); }
 
-        /* Cuenta Regresiva */
+        /* Cuenta Regresiva (Circular) */
         .countdown-container {
             display: flex; justify-content: center; gap: 20px; margin: 50px auto; flex-wrap: wrap;
         }
         .time-box {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            width: 85px; height: 85px; background-color: #fff; border-radius: 12px;
-            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.15); border: 1px solid rgba(212, 175, 55, 0.3);
+            width: 80px; height: 80px; background-color: #fff; border-radius: 50%;
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.15); border: 1px solid rgba(212, 175, 55, 0.2);
             color: var(--text-dark); position: relative;
         }
-        .time-box::before {
-            content: ''; position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border-radius: 16px; border: 1px solid rgba(212, 175, 55, 0.1); z-index: -1;
-        }
-        .time-box span { font-family: 'Cormorant Garamond', serif; font-size: 34px; line-height: 1; margin-bottom: 2px; font-weight: 600; color: var(--gold-editorial); }
+        .time-box span { font-family: 'Cormorant Garamond', serif; font-size: 30px; line-height: 1; margin-bottom: 2px; font-weight: 600; color: var(--gold-editorial); }
         .time-box small { font-family: 'Montserrat', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); font-weight: 500; }
 
         /* Widget de Calendario Editorial */
@@ -315,11 +291,11 @@
         .cal-day:hover { background-color: rgba(212, 175, 55, 0.1); }
 
         .cal-day.active {
-            background: var(--gold-gradient); color: #fff; border-radius: 50%; 
-            font-weight: 600; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4); transform: scale(1.1);
+            background-color: var(--gold-editorial); color: #fff; border-radius: 50%; 
+            font-weight: 600; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3); transform: scale(1.1);
         }
 
-        /* Itinerario Mejorado con Iconos */
+        /* Itinerario con Iconos Mejorados */
         .timeline-container {
             width: 100%; max-width: 450px; margin: 50px auto; text-align: left; position: relative;
             padding-left: 50px;
@@ -334,7 +310,7 @@
             position: absolute; left: -50px; top: -5px; width: 40px; height: 40px;
             background: #fff; border: 2px solid var(--gold-editorial); border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); z-index: 2;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); z-index: 2;
         }
         .timeline-icon svg { width: 20px; height: 20px; fill: var(--gold-editorial); }
 
@@ -358,7 +334,7 @@
 
         /* Boleto Pase VIP Editorial */
         .ticket-card {
-            width: 100%; max-width: 400px; margin: 40px auto; background: var(--gold-gradient);
+            width: 100%; max-width: 400px; margin: 40px auto; background-color: var(--gold-editorial);
             padding: 3px; position: relative; text-align: center;
             border-radius: 12px; box-shadow: 0 20px 50px rgba(212, 175, 55, 0.25); z-index: 2;
         }
@@ -386,8 +362,8 @@
             .envelope::before, .envelope::after { border-left-width: 150px; border-right-width: 150px; border-top-width: 97px; border-bottom-width: 97px; }
             .front-flap { border-left-width: 150px; border-right-width: 150px; border-top-width: 105px; }
             .countdown-container { gap: 10px; }
-            .time-box { width: 75px; height: 75px; }
-            .time-box span { font-size: 28px; }
+            .time-box { width: 70px; height: 70px; }
+            .time-box span { font-size: 26px; }
             .timeline-container { padding-left: 40px; }
             .timeline-icon { left: -40px; width: 34px; height: 34px; }
             .timeline-icon svg { width: 16px; height: 16px; }
@@ -430,16 +406,9 @@
         <!-- Portada -->
         <section class="section-block bg-pearl">
             <div class="anim-element anim-fade-up delay-1 tag-line">Mis XV Años</div>
-            <h1 class="anim-element anim-zoom delay-2 title-script gold-text">Alma Lucía</h1>
+            <h1 class="anim-element anim-zoom delay-2 title-script">Alma Lucía</h1>
             
-            <svg class="anim-element anim-fade-up delay-3 ornament-divider" viewBox="0 0 100 20">
-                <path d="M10,10 Q25,0 40,10 T70,10 T100,10" fill="none" stroke="var(--gold-editorial)" stroke-width="1.5"/>
-                <circle cx="50" cy="10" r="4" fill="var(--gold-editorial)"/>
-                <circle cx="40" cy="10" r="2" fill="var(--gold-editorial)"/>
-                <circle cx="60" cy="10" r="2" fill="var(--gold-editorial)"/>
-            </svg>
-            
-            <p class="anim-element anim-fade-up delay-4 body-serif">
+            <p class="anim-element anim-fade-up delay-4 body-serif" style="margin-top: 20px;">
                 "Los momentos mas especiales de la vida se vuelven aun mas hermosos cuando los compartimos con quienes queremos."
             </p>
         </section>
@@ -447,8 +416,8 @@
         <!-- Cuenta Regresiva y Calendario -->
         <section class="section-block bg-mint">
             <div class="anim-element anim-fade-up delay-1 info-title" style="letter-spacing: 2px;">Será un honor contar con tu presencia el</div>
-            <div class="anim-element anim-fade-up delay-2 info-data gold-text" style="font-size: 45px; font-weight: 600;">5 de Diciembre</div>
-            <div class="anim-element anim-fade-up delay-3 info-data" style="font-size: 28px; color: var(--gold-editorial); letter-spacing: 3px;">2026</div>
+            <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 45px; font-weight: 600; color: var(--gold-editorial);">5 de Diciembre</div>
+            <div class="anim-element anim-fade-up delay-3 info-data" style="font-size: 28px; color: var(--text-muted); letter-spacing: 3px;">2026</div>
 
             <div id="countdown" class="countdown-container anim-element anim-fade-up delay-4">
                 <div class="time-box"><span id="days">00</span><small>Días</small></div>
@@ -477,18 +446,18 @@
         <section class="section-block bg-pearl">
             <div class="anim-element anim-fade-up delay-1 info-title">Con el amor de mis padres</div>
             <div class="anim-element anim-fade-up delay-2 info-data">Eduardo Cabrera Soto</div>
-            <div class="anim-element anim-fade-up delay-3 title-script gold-text" style="font-size: 50px; margin: 15px 0;">&</div>
+            <div class="anim-element anim-fade-up delay-3 title-script" style="font-size: 50px; margin: 15px 0;">&</div>
             <div class="anim-element anim-fade-up delay-3 info-data">Lourdes Ochoa Bojorquez</div>
             
             <div class="anim-element anim-zoom delay-4 line-horizontal"></div>
             
             <div class="anim-element anim-fade-up delay-4 info-title">Y mis Padrinos</div>
             <div class="anim-element anim-fade-up delay-4 info-data" style="font-size: 32px;">Rafael Ochoa Bojorquez</div>
-            <div class="anim-element anim-fade-up delay-4 title-script gold-text" style="font-size: 40px; margin: 5px 0;">&</div>
+            <div class="anim-element anim-fade-up delay-4 title-script" style="font-size: 40px; margin: 5px 0;">&</div>
             <div class="anim-element anim-fade-up delay-4 info-data" style="font-size: 32px;">Yolanda A. Alvarez Carvajal</div>
         </section>
 
-        <!-- Ubicaciones (Sin mapas ni links) -->
+        <!-- Ubicaciones -->
         <section class="section-block bg-pink">
             <div class="anim-element anim-fade-up delay-1 card-panel">
                 <div class="info-title">Ceremonia Religiosa</div>
@@ -505,48 +474,48 @@
             </div>
         </section>
         
-        <!-- Itinerario Mejorado -->
+        <!-- Itinerario -->
         <section class="section-block bg-pearl">
             <div class="anim-element anim-fade-up delay-1 info-title">Cronograma</div>
-            <div class="anim-element anim-fade-up delay-2 info-data gold-text" style="font-size: 45px;">Nuestro Itinerario</div>
+            <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 45px; color: var(--gold-editorial);">Nuestro Itinerario</div>
             
             <div class="anim-element anim-fade-up delay-3 timeline-container">
                 <div class="timeline-item">
                     <div class="timeline-icon">
-                        <!-- Icono Iglesia -->
-                        <svg viewBox="0 0 24 24"><path d="M12 2L4 10H7V22H11V17H13V22H17V10H20L12 2Z"/></svg>
+                        <!-- Icono Iglesia Elegante -->
+                        <svg viewBox="0 0 24 24"><path d="M12,2L4,10V21H9V16H15V21H20V10L12,2M12,5L16,9V11H8V9L12,5M12,11A2,2 0 0,1 14,13A2,2 0 0,1 12,15A2,2 0 0,1 10,13A2,2 0 0,1 12,11Z"/></svg>
                     </div>
                     <div class="time-label">6:00 PM</div>
                     <div class="event-desc">Misa en Parroquia San Francisco de Asis</div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-icon">
-                        <!-- Icono Recepción/Copas -->
-                        <svg viewBox="0 0 24 24"><path d="M21 4H15V6H21V4ZM15 7H21V9H15V7ZM2 4H8V6H2V4ZM2 7H8V9H2V7ZM12.5 12H19.5V14H17V20H19V22H12V20H14V14H11.5L12.5 12ZM4.5 12H11.5L10.5 14H8V20H10V22H3V20H5V14H2.5L4.5 12Z"/></svg>
+                        <!-- Icono Copa de Cóctel -->
+                        <svg viewBox="0 0 24 24"><path d="M21,5V4H3V5L11,14V19H7V21H17V19H13V14L21,5M5.66,6H18.34L16.56,8H7.44L5.66,6Z" /></svg>
                     </div>
                     <div class="time-label">8:00 PM</div>
                     <div class="event-desc">Recepción La Casona</div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-icon">
-                        <!-- Icono Música/Baile -->
-                        <svg viewBox="0 0 24 24"><path d="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17C6 19.21 7.79 21 10 21C12.21 21 14 19.21 14 17V7H18V3H12Z"/></svg>
+                        <!-- Icono Notas Musicales Dobles -->
+                        <svg viewBox="0 0 24 24"><path d="M21,3V15.5A3.5,3.5 0 0,1 17.5,19A3.5,3.5 0 0,1 14,15.5A3.5,3.5 0 0,1 17.5,12C18.04,12 18.55,12.12 19,12.34V6.47L9,8.6V17.5A3.5,3.5 0 0,1 5.5,21A3.5,3.5 0 0,1 2,17.5A3.5,3.5 0 0,1 5.5,14C6.04,14 6.55,14.12 7,14.34V3L21,3Z" /></svg>
                     </div>
                     <div class="time-label">9:00 PM</div>
                     <div class="event-desc">Vals de Quinceañera</div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-icon">
-                        <!-- Icono Cena -->
-                        <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7V9H5V2H3V9C3 11.12 4.66 12.84 6.75 12.97V22H8.25V12.97C10.34 12.84 12 11.12 12 9V2H11V9ZM16 2V22H17.5V13H21V2C21 2 16 2 16 2Z"/></svg>
+                        <!-- Icono Platillo de Cena (Campana) -->
+                        <svg viewBox="0 0 24 24"><path d="M12,3A9,9 0 0,0 3,12H21A9,9 0 0,0 12,3M12,5A7,7 0 0,1 19,12H5A7,7 0 0,1 12,5M2,13V15H22V13H2Z"/></svg>
                     </div>
                     <div class="time-label">10:00 PM</div>
                     <div class="event-desc">Cena</div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-icon">
-                        <!-- Icono Fin/Luna -->
-                        <svg viewBox="0 0 24 24"><path d="M12 3C10.6 3 9.27 3.28 8.05 3.79C10.98 5.48 13 8.5 13 12C13 15.5 10.98 18.52 8.05 20.21C9.27 20.72 10.6 21 12 21C16.97 21 21 16.97 21 12C21 7.03 16.97 3 12 3Z"/></svg>
+                        <!-- Icono Reloj -->
+                        <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M11.5,7V12.5L16,15L16.5,13.5L12.5,11.2V7H11.5Z" /></svg>
                     </div>
                     <div class="time-label">1:00 AM</div>
                     <div class="event-desc">Término del evento</div>
@@ -557,14 +526,9 @@
         <!-- Dress Code -->
         <section class="section-block bg-black">
             <div class="anim-element anim-fade-up delay-1 info-title">Dress Code</div>
-            <div class="anim-element anim-fade-up delay-2 info-data gold-text" style="font-family: 'Cinzel', serif; font-size: 50px; margin: 25px 0; letter-spacing: 5px;">
+            <div class="anim-element anim-fade-up delay-2 info-data" style="font-family: 'Cinzel', serif; font-size: 50px; margin: 25px 0; letter-spacing: 5px; color: var(--gold-editorial);">
                 FORMAL
             </div>
-            
-            <svg class="anim-element anim-fade-up delay-3 ornament-divider" viewBox="0 0 100 20">
-                <path d="M10,10 Q25,0 40,10 T70,10 T100,10" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.3"/>
-                <circle cx="50" cy="10" r="4" fill="#fff" opacity="0.5"/>
-            </svg>
 
             <p class="anim-element anim-fade-up delay-4 body-serif" style="color: #bbb; font-size: 22px;">
                 El color rosa es exclusivo solo para la quinceañera. Agradecemos su comprensión.
@@ -574,12 +538,12 @@
         <!-- Mesa de Regalos -->
         <section class="section-block bg-pearl">
             <div class="anim-element anim-fade-up delay-1 info-title">Mesa de Regalos</div>
-            <div class="anim-element anim-zoom delay-2" style="background: var(--gold-gradient); width: 70px; height: 70px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 25px 0; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);">
+            <div class="anim-element anim-zoom delay-2" style="background-color: var(--gold-editorial); width: 70px; height: 70px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 25px 0; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);">
                 <svg viewBox="0 0 24 24" style="width: 35px; height: 35px; fill: #fff;">
                     <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                 </svg>
             </div>
-            <div class="anim-element anim-fade-up delay-3 info-data gold-text" style="font-size: 42px;">Lluvia de Sobres</div>
+            <div class="anim-element anim-fade-up delay-3 info-data" style="font-size: 42px; color: var(--gold-editorial);">Lluvia de Sobres</div>
             <p class="anim-element anim-fade-up delay-4 body-serif" style="margin-top: 25px; font-size: 22px;">
                 El obsequio más hermoso es tu presencia. Si deseas tener un detalle adicional, habrá un buzón en la recepción para tu obsequio en efectivo.
             </p>
@@ -588,7 +552,7 @@
         <!-- Playlist de Spotify -->
         <section class="section-block bg-mint">
             <div class="anim-element anim-fade-up delay-1 info-title">Música</div>
-            <div class="anim-element anim-fade-up delay-2 info-data gold-text" style="font-size: 42px;">Nuestra Playlist</div>
+            <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 42px; color: var(--gold-editorial);">Nuestra Playlist</div>
             <p class="anim-element anim-fade-up delay-3 body-serif" style="margin: 25px auto 45px auto; font-size: 22px;">
                 Ayúdame a crear el ambiente perfecto agregando tus canciones favoritas para la pista de baile.
             </p>
@@ -603,10 +567,13 @@
         <!-- Galería en Vivo -->
         <section class="section-block bg-pearl">
             <div class="anim-element anim-fade-up delay-1 info-title">Momentos</div>
-            <div class="anim-element anim-fade-up delay-2 info-data gold-text" style="font-size: 42px;">Galería en Vivo</div>
+            <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 42px; color: var(--gold-editorial);">Galería en Vivo</div>
             
             <div class="anim-element anim-zoom delay-3" style="width: 80px; height: 80px; margin: 30px auto; border-radius: 50%; border: 2px dashed var(--gold-editorial); display: flex; justify-content: center; align-items: center;">
-                <svg viewBox="0 0 24 24" style="width: 35px; height: 35px; fill: var(--gold-editorial);"><path d="M4 4H20V20H4V4ZM2 4C2 2.9 2.9 2 4 2H20C21.1 2 22 2.9 22 4V20C22 21.1 21.1 22 20 22H4C2.9 22 2 21.1 2 20V4ZM11 15.5L8.5 12.5L5 17H19L14.5 11L11 15.5Z"/></svg>
+                <!-- Icono de Cámara -->
+                <svg viewBox="0 0 24 24" style="width: 35px; height: 35px; fill: var(--gold-editorial);">
+                    <path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                </svg>
             </div>
 
             <p class="anim-element anim-fade-up delay-3 body-serif" style="margin: 10px auto 30px auto; font-size: 22px;">
@@ -629,7 +596,7 @@
                             Pases Asignados
                         </div>
 
-                        <div id="ticket-count" class="gold-text" style="font-family: 'Cinzel', serif; font-size: 70px; font-weight: 700; line-height: 1;">
+                        <div id="ticket-count" style="font-family: 'Cinzel', serif; font-size: 70px; font-weight: 700; line-height: 1; color: var(--gold-editorial);">
                             0
                         </div>
                         <div style="font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-top: 35px;">
@@ -642,7 +609,7 @@
 
             <!-- Formulario RSVP -->
             <div class="anim-element anim-fade-up delay-1 info-title">RSVP</div>
-            <div class="anim-element anim-fade-up delay-2 info-data gold-text" style="font-size: 42px;">Confirmar Asistencia</div>
+            <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 42px; color: var(--gold-editorial);">Confirmar Asistencia</div>
             <p class="anim-element anim-fade-up delay-3 body-serif" style="margin: 15px auto 40px auto; font-size: 22px;">
                 Agradeceremos tu confirmación lo antes posible.
             </p>
@@ -671,7 +638,7 @@
 
             <!-- Muro de Deseos -->
             <div class="anim-element anim-fade-up delay-1 info-title">Mensajes</div>
-            <div class="anim-element anim-fade-up delay-2 info-data gold-text" style="font-size: 42px;">Muro de los Deseos</div>
+            <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 42px; color: var(--gold-editorial);">Muro de los Deseos</div>
             <div class="anim-element anim-fade-up delay-3 form-group" style="margin-top: 40px;">
                 <input type="text" id="wish-name" class="input-line" placeholder="De parte de...">
             </div>
@@ -850,4 +817,4 @@
     </script>
 </body>
 </html>
-```<FollowUp label="¿Necesitas algún otro ajuste para el diseño de Invytia?" query="¿Puedes sugerirme cómo agregar más contenido o integrar otros elementos para el diseño sin fotos?"/>
+```<FollowUp label="¿Quieres que haga alguna otra modificación en el diseño o colores de la invitación?" query="¿Puedes revisar si todo funciona correctamente o si necesitas algún ajuste adicional?"/>
