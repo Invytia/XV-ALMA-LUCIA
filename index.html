@@ -7,23 +7,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Pinyon+Script&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Paleta Rosa Pastel, Blanco y Rosa Nataly Carolina */
-            --bg-pearl: #FFFFFF;       
+            --bg-pearl: #FFFFFF;
             --mint-subtle: linear-gradient(135deg, #FFFFFF 0%, #FFF0F5 100%);
             --pink-subtle: linear-gradient(135deg, #FDF6F8 0%, #FCE4EC 100%);
-            --accent-color: #C57A8B; /* Tono rosa inspirado en Nataly Carolina */
-            --text-dark: #2A2A2A;      
+            --accent-color: #C57A8B;
+            --text-dark: #2A2A2A;
             --text-muted: #6B6B6B;
             --black-theme: #1a1a1a;
-            
             --transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body, html {
             width: 100%;
@@ -34,105 +28,81 @@
             scroll-behavior: smooth;
         }
 
-        /* --- REPRODUCTOR DE MÚSICA (STICKY) --- */
+        /* --- MÚSICA --- */
         .sticky-music-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 55px;
-            height: 55px;
-            background-color: var(--accent-color);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 10px 25px rgba(197, 122, 139, 0.4);
-            z-index: 2000;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px) scale(0.9);
-            transition: all 0.6s var(--transition-smooth);
-            border: none;
-            outline: none;
+            position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px;
+            background-color: var(--accent-color); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 10px 25px rgba(197, 122, 139, 0.4); z-index: 2000; cursor: pointer;
+            opacity: 0; visibility: hidden; transform: translateY(20px) scale(0.9);
+            transition: all 0.6s var(--transition-smooth); border: none; outline: none;
+        }
+        body.content-active .sticky-music-btn { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+        .sticky-music-btn:hover { transform: scale(1.1); background-color: #A86373; }
+        .sticky-music-btn.playing { animation: musicPulse 2.4s infinite; }
+        .sticky-music-btn svg { width: 20px; height: 20px; fill: #fff; }
+        @keyframes musicPulse {
+            0% { box-shadow: 0 0 0 0 rgba(197,122,139,0.5); }
+            70% { box-shadow: 0 0 0 18px rgba(197,122,139,0); }
+            100% { box-shadow: 0 0 0 0 rgba(197,122,139,0); }
         }
 
-        body.content-active .sticky-music-btn {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
+        /* --- ESTRELLITAS FLOTANTES POR TODA LA INVITACIÓN --- */
+        #stars-layer {
+            position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 900;
+            opacity: 0; transition: opacity 2s ease;
+        }
+        body.content-active #stars-layer { opacity: 1; }
+        .float-star {
+            position: absolute; bottom: -30px; fill: var(--accent-color); opacity: 0;
+            animation: starFloat linear infinite;
+        }
+        @keyframes starFloat {
+            0%   { transform: translate(0, 0) rotate(0deg) scale(0.6); opacity: 0; }
+            10%  { opacity: 0.55; }
+            50%  { transform: translate(var(--drift), -55vh) rotate(180deg) scale(1.1); opacity: 0.35; }
+            90%  { opacity: 0.5; }
+            100% { transform: translate(calc(var(--drift) * -1), -115vh) rotate(360deg) scale(0.7); opacity: 0; }
         }
 
-        .sticky-music-btn:hover {
-            transform: scale(1.1);
-            background-color: #A86373;
-            box-shadow: 0 15px 35px rgba(197, 122, 139, 0.5);
-        }
-
-        .sticky-music-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: #fff;
-        }
-
-        /* --- SOBRE EDITORIAL --- */
+        /* --- SOBRE --- */
         #envelope-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--pink-subtle); 
-            z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: var(--pink-subtle); z-index: 1000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: opacity 1.2s ease-in-out, visibility 1.2s;
         }
-
-        #envelope-screen.fade-out {
-            opacity: 0; visibility: hidden; pointer-events: none;
-        }
+        #envelope-screen.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
 
         .envelope-text-container {
             text-align: center; margin-bottom: 50px;
-            animation: floatText 4s ease-in-out infinite;
-            position: relative;
-            z-index: 10;
+            animation: floatText 4s ease-in-out infinite; position: relative; z-index: 10;
         }
-
         .env-tag {
             font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 8px;
-            text-transform: uppercase; color: var(--text-muted); font-weight: 500;
-            position: relative; z-index: 2;
+            text-transform: uppercase; color: var(--text-muted); font-weight: 500; position: relative; z-index: 2;
         }
-
         .env-title {
-            font-family: 'Pinyon Script', cursive; font-size: 90px;
-            color: var(--accent-color); line-height: 1.2; margin-top: 5px;
-            text-shadow: 2px 4px 10px rgba(0,0,0,0.05);
+            font-family: 'Pinyon Script', cursive; font-size: 90px; color: var(--accent-color);
+            line-height: 1.2; margin-top: 5px; text-shadow: 2px 4px 10px rgba(0,0,0,0.05);
             position: relative; z-index: 2;
         }
-
-        .envelope-wrapper {
-            position: relative; cursor: pointer; transition: transform 0.6s var(--transition-smooth);
-            z-index: 10;
-        }
-        
+        .envelope-wrapper { position: relative; cursor: pointer; transition: transform 0.6s var(--transition-smooth); z-index: 10; }
         .envelope-wrapper:hover { transform: translateY(-8px); }
-
         .envelope {
-            position: relative; width: 320px; height: 210px;
-            background-color: #FFFFFF; border-radius: 4px;
-            box-shadow: 0 20px 45px rgba(0,0,0,0.1); 
-            border: 1px solid rgba(197, 122, 139, 0.15);
+            position: relative; width: 320px; height: 210px; background-color: #FFFFFF; border-radius: 4px;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.1); border: 1px solid rgba(197, 122, 139, 0.15);
         }
-
         .envelope::before {
             content: ''; position: absolute; top: 0; right: 0;
             border-right: 160px solid #FFF0F5; border-top: 105px solid transparent;
             border-bottom: 105px solid #FFF0F5; z-index: 2;
         }
-        
         .envelope::after {
             content: ''; position: absolute; top: 0; left: 0;
             border-left: 160px solid #FDF6F8; border-top: 105px solid transparent;
             border-bottom: 105px solid #FDF6F8; z-index: 2;
         }
-
         .front-flap {
             position: absolute; top: 0; left: 0;
             border-left: 160px solid transparent; border-right: 160px solid transparent;
@@ -140,34 +110,24 @@
             transition: transform 0.9s var(--transition-smooth); z-index: 4;
             filter: drop-shadow(0 6px 8px rgba(0,0,0,0.08));
         }
-
         .envelope-wrapper.open .front-flap { transform: rotateX(180deg); z-index: 1; }
-
         .wax-seal {
             position: absolute; top: 90px; left: 50%; transform: translateX(-50%);
-            width: 50px; height: 50px; background-color: var(--accent-color);
-            border-radius: 50%; z-index: 5; display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 4px 15px rgba(197, 122, 139, 0.4), inset 0 0 10px rgba(0,0,0,0.05); 
-            transition: opacity 0.5s ease 0.1s, transform 0.5s ease;
+            width: 50px; height: 50px; background-color: var(--accent-color); border-radius: 50%; z-index: 5;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 4px 15px rgba(197, 122, 139, 0.4), inset 0 0 10px rgba(0,0,0,0.05);
+            transition: opacity 0.5s ease 0.1s, transform 0.5s ease; animation: sealBeat 2s infinite ease-in-out;
         }
-        
-        .wax-seal svg { width: 26px; height: 26px; fill: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); }
+        @keyframes sealBeat { 0%,100% { scale: 1; } 50% { scale: 1.12; } }
+        .wax-seal svg { width: 26px; height: 26px; fill: #fff; }
         .envelope-wrapper.open .wax-seal { opacity: 0; transform: translateX(-50%) scale(0.5); pointer-events: none; }
-
         .hint-text {
-            text-align: center; font-size: 11px; font-weight: 500; text-transform: uppercase; 
-            letter-spacing: 4px; color: var(--accent-color); margin-top: 40px; 
-            animation: pulse 2.5s infinite;
+            text-align: center; font-size: 11px; font-weight: 500; text-transform: uppercase;
+            letter-spacing: 4px; color: var(--accent-color); margin-top: 40px; animation: pulse 2.5s infinite;
         }
 
-        /* --- DESTELLOS ESTILO ALICE DANAE --- */
-        .sparkle {
-            position: absolute;
-            fill: var(--accent-color);
-            animation: twinkle 3s infinite ease-in-out;
-            z-index: 0;
-            pointer-events: none;
-        }
+        /* Destellos fijos */
+        .sparkle { position: absolute; fill: var(--accent-color); animation: twinkle 3s infinite ease-in-out; z-index: 0; pointer-events: none; }
         @keyframes twinkle {
             0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
             50% { opacity: 0.9; transform: scale(1.2) rotate(15deg); }
@@ -181,199 +141,199 @@
         @keyframes pulse { 0% { opacity: 0.4; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1.05); } 100% { opacity: 0.4; transform: scale(0.95); } }
         @keyframes floatText { 0% { transform: translateY(0); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0); } }
 
-        /* --- CONTENIDO PRINCIPAL Y ANIMACIONES ESCALONADAS --- */
+        /* --- CONTENIDO --- */
         #main-invitation {
             display: none; width: 100%; flex-direction: column; align-items: center;
             opacity: 0; animation: fadeInMain 2s forwards 0.3s;
         }
-        
         body.content-active #main-invitation { display: flex; }
-
         @keyframes fadeInMain { to { opacity: 1; } }
 
-        /* Clases de Animación */
+        /* Animaciones de entrada */
         .anim-element { opacity: 0; transition: all 1.2s var(--transition-smooth); position: relative; z-index: 2; }
-        
         .anim-fade-up { transform: translateY(40px); }
-        .anim-fade-up.in-view { opacity: 1; transform: translateY(0); }
-        
         .anim-zoom { transform: scale(0.92); }
-        .anim-zoom.in-view { opacity: 1; transform: scale(1); }
-
-        /* Delays */
+        .anim-left { transform: translateX(-60px); }
+        .anim-right { transform: translateX(60px); }
+        .anim-blur { transform: translateY(30px) scale(0.96); filter: blur(14px); }
+        .anim-fade-up.in-view, .anim-zoom.in-view, .anim-left.in-view, .anim-right.in-view, .anim-blur.in-view {
+            opacity: 1; transform: none; filter: none;
+        }
         .delay-1 { transition-delay: 0.1s; }
         .delay-2 { transition-delay: 0.25s; }
         .delay-3 { transition-delay: 0.4s; }
         .delay-4 { transition-delay: 0.55s; }
 
-        /* Estructura de Secciones Minimalistas */
         .section-block {
-            width: 100%; padding: 120px 20px; display: flex; flex-direction: column; align-items: center; text-align: center;
-            position: relative; overflow: hidden;
+            width: 100%; padding: 120px 20px; display: flex; flex-direction: column; align-items: center;
+            text-align: center; position: relative; overflow: hidden;
         }
-
         .bg-pearl { background-color: var(--bg-pearl); }
         .bg-mint { background: var(--mint-subtle); }
         .bg-pink { background: var(--pink-subtle); }
         .bg-black { background-color: var(--black-theme); color: #ffffff; }
 
-        /* Tipografía Editorial */
         .tag-line {
             font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 5px;
             text-transform: uppercase; color: var(--accent-color); margin-bottom: 20px; font-weight: 600;
         }
-
         .title-script {
-            font-family: 'Pinyon Script', cursive; font-size: 95px;
-            color: var(--accent-color); margin-bottom: 10px; line-height: 1.1; font-weight: 400;
-            position: relative; z-index: 2;
+            font-family: 'Pinyon Script', cursive; font-size: 95px; color: var(--accent-color);
+            margin-bottom: 10px; line-height: 1.1; font-weight: 400; position: relative; z-index: 2;
         }
+        /* Brillo que recorre el nombre */
+        .shimmer {
+            background: linear-gradient(110deg, var(--accent-color) 35%, #F3C9D3 50%, var(--accent-color) 65%);
+            background-size: 250% 100%; -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent; color: transparent; animation: shimmer 5s linear infinite;
+        }
+        @keyframes shimmer { 0% { background-position: 150% 0; } 100% { background-position: -100% 0; } }
 
         .body-serif {
-            font-family: 'Cormorant Garamond', serif; font-size: 25px;
-            line-height: 1.6; color: var(--text-muted); font-style: italic;
-            max-width: 650px; padding: 0 20px; font-weight: 500;
+            font-family: 'Cormorant Garamond', serif; font-size: 25px; line-height: 1.6; color: var(--text-muted);
+            font-style: italic; max-width: 650px; padding: 0 20px; font-weight: 500;
         }
-
         .line-horizontal { width: 80px; height: 2px; background-color: var(--accent-color); margin: 50px auto; border-radius: 2px; }
 
-        /* Información Textual */
         .info-title {
             font-family: 'Cinzel', serif; font-size: 15px; letter-spacing: 4px; line-height: 1.4;
             text-transform: uppercase; color: var(--accent-color); margin-bottom: 15px; font-weight: 600;
         }
-
         .info-data {
-            font-family: 'Cormorant Garamond', serif; font-size: 38px;
-            color: var(--text-dark); margin-bottom: 5px; font-weight: 500; line-height: 1.3;
+            font-family: 'Cormorant Garamond', serif; font-size: 38px; color: var(--text-dark);
+            margin-bottom: 5px; font-weight: 500; line-height: 1.3;
         }
-        
         .card-panel {
-            background: #fff; padding: 40px 30px; border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.06); border: 1px solid rgba(197, 122, 139, 0.2);
-            max-width: 500px; width: 100%; margin: 30px auto; position: relative;
+            background: #fff; padding: 40px 30px; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+            border: 1px solid rgba(197, 122, 139, 0.2); max-width: 500px; width: 100%; margin: 30px auto; position: relative;
         }
-
         .bg-black .info-data { color: #ffffff; }
 
-        /* Botones Minimalistas Editoriales */
         .btn-solid {
-            display: inline-block; background-color: var(--accent-color); color: #fff;
-            padding: 18px 40px; font-family: 'Montserrat', sans-serif; font-size: 13px;
-            font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
-            text-decoration: none; border: none; cursor: pointer; border-radius: 30px;
+            display: inline-block; background-color: var(--accent-color); color: #fff; padding: 18px 40px;
+            font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 3px;
+            text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; border-radius: 30px;
             transition: all 0.4s ease; margin-top: 30px; position: relative; z-index: 5;
-            box-shadow: 0 10px 20px rgba(197, 122, 139, 0.2);
+            box-shadow: 0 10px 20px rgba(197, 122, 139, 0.2); overflow: hidden;
         }
-        
+        .btn-solid::after {
+            content: ''; position: absolute; top: 0; left: -80%; width: 50%; height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent);
+            transform: skewX(-20deg); animation: btnShine 4s infinite;
+        }
+        @keyframes btnShine { 0%, 60% { left: -80%; } 100% { left: 140%; } }
         .btn-solid:hover { background-color: #A86373; transform: translateY(-3px); box-shadow: 0 15px 30px rgba(197, 122, 139, 0.35); }
 
-        /* Cuenta Regresiva (Circular) */
-        .countdown-container {
-            display: flex; justify-content: center; gap: 20px; margin: 50px auto; flex-wrap: wrap;
+        /* --- FOTOS: completas, derechas, sin cajas --- */
+        .photo {
+            display: block; width: 100%; max-width: 440px; height: auto; margin: 50px auto 0;
+            cursor: zoom-in; border: none; border-radius: 0; padding: 0; background: none;
+            filter: drop-shadow(0 12px 22px rgba(0,0,0,0.15)); transition: filter 0.4s ease;
         }
+        .photo:hover { filter: drop-shadow(0 16px 30px rgba(197,122,139,0.35)); }
+
+        /* --- LIGHTBOX --- */
+        #lightbox {
+            position: fixed; inset: 0; background: rgba(15,15,15,0.92); z-index: 3000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s;
+        }
+        #lightbox.show { opacity: 1; visibility: visible; }
+        #lightbox img { max-width: 92vw; max-height: 88vh; width: auto; height: auto; transform: scale(0.94); transition: transform 0.4s var(--transition-smooth); }
+        #lightbox.show img { transform: scale(1); }
+        .lb-btn {
+            position: absolute; background: rgba(255,255,255,0.12); color: #fff; border: none; cursor: pointer;
+            width: 46px; height: 46px; border-radius: 50%; font-size: 24px; line-height: 1;
+            display: flex; justify-content: center; align-items: center; transition: background 0.3s;
+        }
+        .lb-btn:hover { background: var(--accent-color); }
+        #lb-close { top: 20px; right: 20px; }
+        #lb-prev { left: 15px; top: 50%; transform: translateY(-50%); }
+        #lb-next { right: 15px; top: 50%; transform: translateY(-50%); }
+
+        /* Cuenta regresiva */
+        .countdown-container { display: flex; justify-content: center; gap: 20px; margin: 50px auto; flex-wrap: wrap; }
         .time-box {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             width: 80px; height: 80px; background-color: #fff; border-radius: 50%;
             box-shadow: 0 10px 25px rgba(197, 122, 139, 0.15); border: 1px solid rgba(197, 122, 139, 0.2);
-            color: var(--text-dark); position: relative;
+            color: var(--text-dark); position: relative; animation: bob 4s ease-in-out infinite;
         }
+        .time-box:nth-child(2) { animation-delay: 0.3s; }
+        .time-box:nth-child(3) { animation-delay: 0.6s; }
+        .time-box:nth-child(4) { animation-delay: 0.9s; }
+        @keyframes bob { 0%,100% { translate: 0 0; } 50% { translate: 0 -6px; } }
         .time-box span { font-family: 'Cormorant Garamond', serif; font-size: 30px; line-height: 1; margin-bottom: 2px; font-weight: 600; color: var(--accent-color); }
         .time-box small { font-family: 'Montserrat', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); font-weight: 500; }
 
-        /* Widget de Calendario Editorial */
+        /* Calendario */
         .calendar-wrapper {
-            width: 100%; max-width: 360px; margin: 50px auto 20px auto; padding: 40px 30px;
-            background: #fff; border-radius: 12px; box-shadow: 0 25px 50px rgba(0,0,0,0.08);
-            box-sizing: border-box; border: 1px solid rgba(197, 122, 139, 0.2); position: relative; z-index: 2;
+            width: 100%; max-width: 360px; margin: 50px auto 20px auto; padding: 40px 30px; background: #fff;
+            border-radius: 12px; box-shadow: 0 25px 50px rgba(0,0,0,0.08); border: 1px solid rgba(197, 122, 139, 0.2);
+            position: relative; z-index: 2;
         }
-
-        .calendar-month {
-            font-family: 'Cinzel', serif; font-size: 24px; color: var(--text-dark);
-            text-transform: uppercase; letter-spacing: 5px; margin-bottom: 35px; font-weight: 600;
-        }
-
-        .calendar-grid {
-            display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;
-            width: 100%; box-sizing: border-box;
-        }
-
-        .cal-header {
-            font-family: 'Montserrat', sans-serif; font-size: clamp(11px, 3vw, 13px);
-            font-weight: 600; color: var(--accent-color); padding-bottom: 15px;
-        }
-
+        .calendar-month { font-family: 'Cinzel', serif; font-size: 24px; color: var(--text-dark); text-transform: uppercase; letter-spacing: 5px; margin-bottom: 35px; font-weight: 600; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; width: 100%; }
+        .cal-header { font-family: 'Montserrat', sans-serif; font-size: clamp(11px, 3vw, 13px); font-weight: 600; color: var(--accent-color); padding-bottom: 15px; }
         .cal-day {
-            font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 5vw, 22px);
-            font-weight: 500; color: var(--text-muted); display: flex; justify-content: center; align-items: center;
-            aspect-ratio: 1; border-radius: 50%; transition: all 0.3s ease;
+            font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 5vw, 22px); font-weight: 500; color: var(--text-muted);
+            display: flex; justify-content: center; align-items: center; aspect-ratio: 1; border-radius: 50%; transition: all 0.3s ease;
         }
-
         .cal-day:hover { background-color: rgba(197, 122, 139, 0.1); }
-
         .cal-day.active {
-            background-color: var(--accent-color); color: #fff; border-radius: 50%; 
-            font-weight: 600; box-shadow: 0 8px 20px rgba(197, 122, 139, 0.3); transform: scale(1.1);
+            background-color: var(--accent-color); color: #fff; font-weight: 600;
+            box-shadow: 0 8px 20px rgba(197, 122, 139, 0.3); transform: scale(1.1); animation: dayGlow 2.5s infinite;
+        }
+        @keyframes dayGlow {
+            0%,100% { box-shadow: 0 8px 20px rgba(197,122,139,0.3); }
+            50% { box-shadow: 0 0 0 8px rgba(197,122,139,0.18), 0 8px 24px rgba(197,122,139,0.4); }
         }
 
-        /* Itinerario con Iconos Mejorados */
-        .timeline-container {
-            width: 100%; max-width: 450px; margin: 50px auto; text-align: left; position: relative;
-            padding-left: 50px;
-        }
+        /* Itinerario */
+        .timeline-container { width: 100%; max-width: 450px; margin: 50px auto; text-align: left; position: relative; padding-left: 50px; }
         .timeline-container::before {
-            content: ''; position: absolute; left: 19px; top: 10px; bottom: 10px;
-            width: 2px; background: linear-gradient(to bottom, rgba(197, 122, 139, 0.2), var(--accent-color), rgba(197, 122, 139, 0.2));
+            content: ''; position: absolute; left: 19px; top: 10px; bottom: 10px; width: 2px;
+            background: linear-gradient(to bottom, rgba(197, 122, 139, 0.2), var(--accent-color), rgba(197, 122, 139, 0.2));
         }
         .timeline-item { position: relative; margin-bottom: 50px; }
-        
         .timeline-icon {
-            position: absolute; left: -50px; top: -5px; width: 40px; height: 40px;
-            background: #fff; border: 2px solid var(--accent-color); border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 5px 15px rgba(197, 122, 139, 0.2); z-index: 2;
+            position: absolute; left: -50px; top: -5px; width: 40px; height: 40px; background: #fff;
+            border: 2px solid var(--accent-color); border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 5px 15px rgba(197, 122, 139, 0.2); z-index: 2; animation: iconPulse 3s infinite ease-in-out;
         }
+        @keyframes iconPulse { 0%,100% { scale: 1; } 50% { scale: 1.1; } }
         .timeline-icon svg { width: 20px; height: 20px; fill: var(--accent-color); }
-
         .time-label { font-family: 'Cinzel', serif; font-size: 15px; font-weight: 700; color: var(--accent-color); letter-spacing: 2px; margin-bottom: 8px; }
         .event-desc { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--text-dark); line-height: 1.2; font-weight: 500; }
 
-        /* Formularios RSVP Finos */
+        /* Formularios */
         .form-group { width: 100%; max-width: 400px; margin: 0 auto 25px auto; position: relative; z-index: 2; }
-        
         .input-line {
-            width: 100%; padding: 20px 0; background: transparent; border: none;
-            border-bottom: 2px solid rgba(0,0,0,0.1); color: var(--text-dark);
-            font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 500; outline: none;
+            width: 100%; padding: 20px 0; background: transparent; border: none; border-bottom: 2px solid rgba(0,0,0,0.1);
+            color: var(--text-dark); font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 500; outline: none;
             text-align: center; transition: border-color 0.4s;
         }
         .input-line:focus { border-bottom-color: var(--accent-color); }
-        .input-line::placeholder { color: #A0A0A0; font-style: normal; }
-        
+        .input-line::placeholder { color: #A0A0A0; }
         textarea.input-line { resize: vertical; min-height: 100px; }
         select.input-line { appearance: none; text-align-last: center; cursor: pointer; }
 
-        /* Boleto Pase VIP Editorial */
+        /* Boleto */
         .ticket-card {
-            width: 100%; max-width: 400px; margin: 40px auto; background-color: var(--accent-color);
-            padding: 3px; position: relative; text-align: center;
-            border-radius: 12px; box-shadow: 0 20px 50px rgba(197, 122, 139, 0.25); z-index: 2;
+            width: 100%; max-width: 400px; margin: 40px auto; background-color: var(--accent-color); padding: 3px;
+            position: relative; text-align: center; border-radius: 12px; box-shadow: 0 20px 50px rgba(197, 122, 139, 0.25); z-index: 2;
         }
-        
-        .ticket-inner {
-            background: #fff; border-radius: 10px; padding: 50px 25px;
-            position: relative; overflow: hidden;
-        }
-
+        .ticket-inner { background: #fff; border-radius: 10px; padding: 50px 25px; position: relative; overflow: hidden; }
         .ticket-inner::before, .ticket-inner::after {
-            content: ''; position: absolute; top: 50%; transform: translateY(-50%);
-            width: 30px; height: 30px; background-color: #FCE4EC; border-radius: 50%;
-            border: 1px solid rgba(197, 122, 139, 0.3);
+            content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 30px; height: 30px;
+            background-color: #FCE4EC; border-radius: 50%; border: 1px solid rgba(197, 122, 139, 0.3);
         }
         .ticket-inner::before { left: -16px; }
         .ticket-inner::after { right: -16px; }
 
-        /* Responsive Móvil */
+        /* Íconos flotantes de sección */
+        .float-icon { animation: bob 3.5s ease-in-out infinite; }
+
         @media (max-width: 450px) {
             .env-title { font-size: 75px; }
             .title-script { font-size: 75px; }
@@ -390,29 +350,39 @@
             .timeline-icon svg { width: 16px; height: 16px; }
             .timeline-container::before { left: 16px; }
         }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- AUDIO OCULTO -->
     <audio id="bg-music" src="assets/song.mp3" loop></audio>
 
-    <!-- BOTÓN STICKY DE MÚSICA -->
+    <!-- Estrellitas flotantes (se generan con JS) -->
+    <div id="stars-layer" aria-hidden="true"></div>
+
+    <!-- Visor de fotos -->
+    <div id="lightbox" aria-hidden="true">
+        <button class="lb-btn" id="lb-close" aria-label="Cerrar">&times;</button>
+        <button class="lb-btn" id="lb-prev" aria-label="Anterior">&#8249;</button>
+        <img id="lb-img" src="" alt="Foto de Alma Lucía">
+        <button class="lb-btn" id="lb-next" aria-label="Siguiente">&#8250;</button>
+    </div>
+
     <button id="music-btn" class="sticky-music-btn" onclick="toggleMusic()" aria-label="Controlar música">
         <svg id="music-icon-play" style="display:none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         <svg id="music-icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
     </button>
 
-    <!-- PANTALLA INICIAL DEL SOBRE -->
+    <!-- SOBRE -->
     <div id="envelope-screen">
         <div class="envelope-text-container">
-            <!-- Destellos (Sparkles) estilo Alice Danae -->
             <svg class="sparkle sp-1" viewBox="0 0 24 24"><path d="M12 0 L13.5 10.5 L24 12 L13.5 13.5 L12 24 L10.5 13.5 L0 12 L10.5 10.5 Z"/></svg>
             <svg class="sparkle sp-2" viewBox="0 0 24 24"><path d="M12 0 L13.5 10.5 L24 12 L13.5 13.5 L12 24 L10.5 13.5 L0 12 L10.5 10.5 Z"/></svg>
             <svg class="sparkle sp-3" viewBox="0 0 24 24"><path d="M12 0 L13.5 10.5 L24 12 L13.5 13.5 L12 24 L10.5 13.5 L0 12 L10.5 10.5 Z"/></svg>
             <svg class="sparkle sp-4" viewBox="0 0 24 24"><path d="M12 0 L13.5 10.5 L24 12 L13.5 13.5 L12 24 L10.5 13.5 L0 12 L10.5 10.5 Z"/></svg>
             <svg class="sparkle sp-5" viewBox="0 0 24 24"><path d="M12 0 L13.5 10.5 L24 12 L13.5 13.5 L12 24 L10.5 13.5 L0 12 L10.5 10.5 Z"/></svg>
-
             <div class="env-tag">Mis XV Años</div>
             <h1 class="env-title">Alma Lucía</h1>
         </div>
@@ -424,30 +394,28 @@
             </div>
             <div class="envelope"></div>
         </div>
-        
+
         <div class="hint-text" style="position: relative; z-index: 10;">Tocar para abrir</div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <main id="main-invitation">
-        
+
         <!-- Portada -->
         <section class="section-block bg-pearl">
             <div style="position: relative; display: inline-block; width: 100%; text-align: center;">
                 <div class="anim-element anim-fade-up delay-1 tag-line">Mis XV Años</div>
-                
                 <div style="position: relative; display: inline-block;">
-                    <!-- Destellos (Sparkles) -->
                     <svg class="sparkle sp-1" viewBox="0 0 24 24"><path d="M12 0 L13.5 10.5 L24 12 L13.5 13.5 L12 24 L10.5 13.5 L0 12 L10.5 10.5 Z"/></svg>
                     <svg class="sparkle sp-2" viewBox="0 0 24 24"><path d="M12 0 L13.5 10.5 L24 12 L13.5 13.5 L12 24 L10.5 13.5 L0 12 L10.5 10.5 Z"/></svg>
                     <svg class="sparkle sp-3" viewBox="0 0 24 24"><path d="M12 0 L13.5 10.5 L24 12 L13.5 13.5 L12 24 L10.5 13.5 L0 12 L10.5 10.5 Z"/></svg>
                     <svg class="sparkle sp-4" viewBox="0 0 24 24"><path d="M12 0 L13.5 10.5 L24 12 L13.5 13.5 L12 24 L10.5 13.5 L0 12 L10.5 10.5 Z"/></svg>
-
-                    <h1 class="anim-element anim-zoom delay-2 title-script">Alma Lucía</h1>
+                    <h1 class="anim-element anim-zoom delay-2 title-script shimmer">Alma Lucía</h1>
                 </div>
             </div>
-            
-            <p class="anim-element anim-fade-up delay-4 body-serif" style="margin-top: 20px;">
+
+            <img class="photo anim-element anim-blur delay-3" src="assets/1.jpg" alt="Alma Lucía">
+
+            <p class="anim-element anim-fade-up delay-4 body-serif" style="margin-top: 40px;">
                 "Los momentos mas especiales de la vida se vuelven aun mas hermosos cuando los compartimos con quienes queremos."
             </p>
         </section>
@@ -465,9 +433,10 @@
                 <div class="time-box"><span id="secs">00</span><small>Seg</small></div>
             </div>
 
+            <img class="photo anim-element anim-left" src="assets/2.jpg" alt="Alma Lucía">
+
             <div class="anim-element anim-zoom delay-4 calendar-wrapper">
                 <div class="calendar-month">Diciembre</div>
-                <!-- Grid de Diciembre 2026: Inicia en Martes -->
                 <div class="calendar-grid">
                     <div class="cal-header">D</div><div class="cal-header">L</div><div class="cal-header">M</div><div class="cal-header">M</div><div class="cal-header">J</div><div class="cal-header">V</div><div class="cal-header">S</div>
                     <div></div><div></div><div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div><div class="cal-day active">5</div>
@@ -477,28 +446,30 @@
                     <div class="cal-day">27</div><div class="cal-day">28</div><div class="cal-day">29</div><div class="cal-day">30</div><div class="cal-day">31</div><div></div><div></div>
                 </div>
             </div>
-            
+
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=XV+A%C3%B1os+de+Alma+Luc%C3%ADa&dates=20261206T000000Z/20261206T070000Z&details=Celebremos+juntos+este+d%C3%ADa+tan+especial" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Agendar Evento</a>
         </section>
 
         <!-- Padres y Padrinos -->
         <section class="section-block bg-pearl">
             <div class="anim-element anim-fade-up delay-1 info-title">Con el amor de mis padres</div>
-            <div class="anim-element anim-fade-up delay-2 info-data">Eduardo Cabrera Soto</div>
-            <div class="anim-element anim-fade-up delay-3 title-script" style="font-size: 50px; margin: 15px 0;">&</div>
-            <div class="anim-element anim-fade-up delay-3 info-data">Lourdes Ochoa Bojorquez</div>
-            
+            <div class="anim-element anim-left delay-2 info-data">Eduardo Cabrera Soto</div>
+            <div class="anim-element anim-zoom delay-3 title-script" style="font-size: 50px; margin: 15px 0;">&</div>
+            <div class="anim-element anim-right delay-3 info-data">Lourdes Ochoa Bojorquez</div>
+
+            <img class="photo anim-element anim-blur" src="assets/3.jpg" alt="Alma Lucía">
+
             <div class="anim-element anim-zoom delay-4 line-horizontal"></div>
-            
+
             <div class="anim-element anim-fade-up delay-4 info-title">Y mis Padrinos</div>
-            <div class="anim-element anim-fade-up delay-4 info-data" style="font-size: 32px;">Rafael Ochoa Bojorquez</div>
-            <div class="anim-element anim-fade-up delay-4 title-script" style="font-size: 40px; margin: 5px 0;">&</div>
-            <div class="anim-element anim-fade-up delay-4 info-data" style="font-size: 32px;">Yolanda A. Alvarez Carvajal</div>
+            <div class="anim-element anim-left delay-4 info-data" style="font-size: 32px;">Rafael Ochoa Bojorquez</div>
+            <div class="anim-element anim-zoom delay-4 title-script" style="font-size: 40px; margin: 5px 0;">&</div>
+            <div class="anim-element anim-right delay-4 info-data" style="font-size: 32px;">A. Yolanda Alvarez Carvajal</div>
         </section>
 
         <!-- Ubicaciones -->
         <section class="section-block bg-pink">
-            <div class="anim-element anim-fade-up delay-1 card-panel">
+            <div class="anim-element anim-left delay-1 card-panel">
                 <div class="info-title">Ceremonia Religiosa</div>
                 <div class="info-data" style="font-size: 34px;">Parroquia San Francisco de Asis</div>
                 <div class="tag-line" style="font-size: 16px; margin-top: 15px; color: var(--text-muted);">6:00 p.m.</div>
@@ -506,78 +477,78 @@
 
             <div class="anim-element anim-zoom line-horizontal" style="margin: 20px auto;"></div>
 
-            <div class="anim-element anim-fade-up delay-2 card-panel">
+            <div class="anim-element anim-right delay-2 card-panel">
                 <div class="info-title">Recepción</div>
                 <div class="info-data" style="font-size: 34px;">Club La Casona</div>
                 <div class="tag-line" style="font-size: 16px; margin-top: 15px; color: var(--text-muted);">8:00 p.m.</div>
             </div>
+
+            <img class="photo anim-element anim-right" src="assets/4.jpg" alt="Alma Lucía">
         </section>
-        
+
         <!-- Itinerario -->
         <section class="section-block bg-pearl">
             <div class="anim-element anim-fade-up delay-1 info-title">Cronograma</div>
             <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 45px; color: var(--accent-color);">Nuestro Itinerario</div>
-            
-            <div class="anim-element anim-fade-up delay-3 timeline-container">
-                <div class="timeline-item">
+
+            <div class="timeline-container">
+                <div class="anim-element anim-left timeline-item">
                     <div class="timeline-icon">
-                        <!-- Icono Iglesia -->
                         <svg viewBox="0 0 24 24"><path d="M12,2A1,1 0 0,1 13,3V5H15V7H13V9.58L21.36,15H22V22H14V17H10V22H2V15H2.64L11,9.58V7H9V5H11V3A1,1 0 0,1 12,2M12,11.23L4,16.4V20H8V15H16V20H20V16.4L12,11.23Z" /></svg>
                     </div>
                     <div class="time-label">6:00 PM</div>
                     <div class="event-desc">Misa en Parroquia San Francisco de Asis</div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-icon">
-                        <!-- Icono Copa de Cóctel -->
+                <div class="anim-element anim-left timeline-item">
+                    <div class="timeline-icon" style="animation-delay:0.4s">
                         <svg viewBox="0 0 24 24"><path d="M21,5V4H3V5L11,14V19H7V21H17V19H13V14L21,5M5.66,6H18.34L16.56,8H7.44L5.66,6Z" /></svg>
                     </div>
                     <div class="time-label">8:00 PM</div>
                     <div class="event-desc">Recepción La Casona</div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-icon">
-                        <!-- Icono Notas Musicales Dobles -->
+                <div class="anim-element anim-left timeline-item">
+                    <div class="timeline-icon" style="animation-delay:0.8s">
                         <svg viewBox="0 0 24 24"><path d="M21,3V15.5A3.5,3.5 0 0,1 17.5,19A3.5,3.5 0 0,1 14,15.5A3.5,3.5 0 0,1 17.5,12C18.04,12 18.55,12.12 19,12.34V6.47L9,8.6V17.5A3.5,3.5 0 0,1 5.5,21A3.5,3.5 0 0,1 2,17.5A3.5,3.5 0 0,1 5.5,14C6.04,14 6.55,14.12 7,14.34V3L21,3Z" /></svg>
                     </div>
                     <div class="time-label">9:00 PM</div>
                     <div class="event-desc">Vals de Quinceañera</div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-icon">
-                        <!-- Icono Cubiertos (Cena) -->
+                <div class="anim-element anim-left timeline-item">
+                    <div class="timeline-icon" style="animation-delay:1.2s">
                         <svg viewBox="0 0 24 24"><path d="M11,9H9V2H7V9H5V2H3V9C3,11.12 4.66,12.84 6.75,12.97V22H8.25V12.97C10.34,12.84 12,11.12 12,9V2H11V9M16,2V22H17.5V13H21V2C21,2 16,2 16,2Z" /></svg>
                     </div>
                     <div class="time-label">10:00 PM</div>
                     <div class="event-desc">Cena</div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-icon">
-                        <!-- Icono Reloj -->
+                <div class="anim-element anim-left timeline-item">
+                    <div class="timeline-icon" style="animation-delay:1.6s">
                         <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M11.5,7V12.5L16,15L16.5,13.5L12.5,11.2V7H11.5Z" /></svg>
                     </div>
                     <div class="time-label">1:00 AM</div>
                     <div class="event-desc">Término del evento</div>
                 </div>
             </div>
+
+            <img class="photo anim-element anim-blur" src="assets/5.jpg" alt="Alma Lucía">
         </section>
 
         <!-- Dress Code -->
         <section class="section-block bg-black">
             <div class="anim-element anim-fade-up delay-1 info-title">Dress Code</div>
-            <div class="anim-element anim-fade-up delay-2 info-data" style="font-family: 'Cinzel', serif; font-size: 50px; margin: 25px 0; letter-spacing: 5px; color: var(--accent-color);">
+            <div class="anim-element anim-zoom delay-2 info-data" style="font-family: 'Cinzel', serif; font-size: 50px; margin: 25px 0; letter-spacing: 5px; color: var(--accent-color);">
                 FORMAL
             </div>
-
             <p class="anim-element anim-fade-up delay-4 body-serif" style="color: #bbb; font-size: 22px;">
                 El color rosa es exclusivo solo para la quinceañera. Agradecemos su comprensión.
             </p>
+
+            <img class="photo anim-element anim-left" src="assets/6.jpg" alt="Alma Lucía" style="filter: drop-shadow(0 12px 28px rgba(197,122,139,0.25));">
         </section>
 
         <!-- Mesa de Regalos -->
         <section class="section-block bg-pearl">
             <div class="anim-element anim-fade-up delay-1 info-title">Mesa de Regalos</div>
-            <div class="anim-element anim-zoom delay-2" style="background-color: var(--accent-color); width: 70px; height: 70px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 25px 0; box-shadow: 0 10px 25px rgba(197, 122, 139, 0.2);">
+            <div class="anim-element anim-zoom delay-2 float-icon" style="background-color: var(--accent-color); width: 70px; height: 70px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 25px 0; box-shadow: 0 10px 25px rgba(197, 122, 139, 0.2);">
                 <svg viewBox="0 0 24 24" style="width: 35px; height: 35px; fill: #fff;">
                     <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                 </svg>
@@ -586,15 +557,16 @@
             <p class="anim-element anim-fade-up delay-4 body-serif" style="margin-top: 25px; font-size: 22px;">
                 El obsequio más hermoso es tu presencia. Si deseas tener un detalle adicional, habrá un buzón en la recepción para tu obsequio en efectivo.
             </p>
+
+            <img class="photo anim-element anim-right" src="assets/7.jpg" alt="Alma Lucía">
         </section>
 
         <!-- Galería en Vivo -->
         <section class="section-block bg-pink">
             <div class="anim-element anim-fade-up delay-1 info-title">Momentos</div>
             <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 42px; color: var(--accent-color);">Galería en Vivo</div>
-            
-            <div class="anim-element anim-zoom delay-3" style="width: 80px; height: 80px; margin: 30px auto; border-radius: 50%; border: 2px dashed var(--accent-color); display: flex; justify-content: center; align-items: center;">
-                <!-- Icono de Cámara -->
+
+            <div class="anim-element anim-zoom delay-3 float-icon" style="width: 80px; height: 80px; margin: 30px auto; border-radius: 50%; border: 2px dashed var(--accent-color); display: flex; justify-content: center; align-items: center;">
                 <svg viewBox="0 0 24 24" style="width: 35px; height: 35px; fill: var(--accent-color);">
                     <path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                 </svg>
@@ -604,25 +576,22 @@
                 Captura la magia de esta noche. Comparte todas las fotos y videos que tomes directamente en nuestro álbum digital.
             </p>
             <a href="https://drive.google.com/drive/folders/1YX3ln_b2n_0-dDryZ_zY5x0KuG1eVntE?usp=sharing" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Subir mis Fotos</a>
+
+            <img class="photo anim-element anim-blur" src="assets/8.jpg" alt="Alma Lucía">
         </section>
 
-        <!-- RSVP y Pases VIP (Invytia) -->
+        <!-- RSVP -->
         <section class="section-block bg-pearl">
-            
-            <!-- Tarjeta VIP Dinámica basada en URL "?p=" -->
+
             <div id="pases-section" style="display: none; width: 100%;">
                 <div class="anim-element anim-fade-up delay-1 info-title">Acceso al Evento</div>
                 <div class="anim-element anim-zoom delay-2 ticket-card">
                     <div class="ticket-inner">
                         <div class="tag-line" style="margin-bottom: 20px;">Boleto Especial</div>
-                        
                         <div style="font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--accent-color); font-style: italic; margin-bottom: 15px; font-weight: 600; line-height: 1.2;">
                             Pases Asignados
                         </div>
-
-                        <div id="ticket-count" style="font-family: 'Cinzel', serif; font-size: 70px; font-weight: 700; line-height: 1; color: var(--accent-color);">
-                            0
-                        </div>
+                        <div id="ticket-count" style="font-family: 'Cinzel', serif; font-size: 70px; font-weight: 700; line-height: 1; color: var(--accent-color);">0</div>
                         <div style="font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-top: 35px;">
                             Muestra esta pantalla al llegar
                         </div>
@@ -631,13 +600,12 @@
                 <div class="anim-element anim-fade-up line-horizontal" style="margin: 60px auto;"></div>
             </div>
 
-            <!-- Formulario RSVP -->
             <div class="anim-element anim-fade-up delay-1 info-title">RSVP</div>
             <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 42px; color: var(--accent-color);">Confirmar Asistencia</div>
             <p class="anim-element anim-fade-up delay-3 body-serif" style="margin: 15px auto 40px auto; font-size: 22px;">
                 Agradeceremos tu confirmación lo antes posible.
             </p>
-            
+
             <div class="anim-element anim-fade-up delay-4 form-group">
                 <input type="text" id="rsvp-name" class="input-line" placeholder="Tu nombre y apellido">
             </div>
@@ -648,19 +616,18 @@
                     <option value="no">No me será posible asistir</option>
                 </select>
             </div>
-            
-            <!-- Campo dinámico de cantidad de pases -->
             <div class="anim-element anim-fade-up delay-4 form-group">
                 <select id="rsvp-guests" class="input-line" style="display: none;">
                     <option value="" disabled selected>¿Cuántas personas asisten?</option>
                 </select>
             </div>
-            
-            <button onclick="sendRSVP()" class="anim-element anim-fade-up delay-4 btn-solid" style="margin-bottom: 70px;">Confirmar por WhatsApp</button>
+
+            <button onclick="sendRSVP()" class="anim-element anim-fade-up delay-4 btn-solid" style="margin-bottom: 40px;">Confirmar por WhatsApp</button>
+
+            <img class="photo anim-element anim-blur" src="assets/9.jpg" alt="Alma Lucía" style="margin-bottom: 40px;">
 
             <div class="anim-element anim-zoom line-horizontal"></div>
 
-            <!-- Muro de Deseos -->
             <div class="anim-element anim-fade-up delay-1 info-title">Mensajes</div>
             <div class="anim-element anim-fade-up delay-2 info-data" style="font-size: 42px; color: var(--accent-color);">Muro de los Deseos</div>
             <div class="anim-element anim-fade-up delay-3 form-group" style="margin-top: 40px;">
@@ -670,79 +637,118 @@
                 <textarea id="wish-message" class="input-line" placeholder="Deja un lindo mensaje para Alma Lucía..."></textarea>
             </div>
             <button onclick="sendWish()" class="anim-element anim-fade-up delay-4 btn-solid">Enviar Mensaje</button>
-            
         </section>
 
     </main>
 
     <script>
-        // --- CONTROL DE AUDIO ---
+        // --- AUDIO ---
         let isMusicPlaying = false;
         const bgMusic = document.getElementById('bg-music');
         const playIcon = document.getElementById('music-icon-play');
         const pauseIcon = document.getElementById('music-icon-pause');
+        const musicBtn = document.getElementById('music-btn');
 
-        function toggleMusic() {
-            if (isMusicPlaying) {
-                bgMusic.pause();
-                playIcon.style.display = 'block';
-                pauseIcon.style.display = 'none';
-            } else {
-                bgMusic.play();
-                playIcon.style.display = 'none';
-                pauseIcon.style.display = 'block';
-            }
-            isMusicPlaying = !isMusicPlaying;
+        function setMusicUI(playing) {
+            isMusicPlaying = playing;
+            playIcon.style.display = playing ? 'none' : 'block';
+            pauseIcon.style.display = playing ? 'block' : 'none';
+            musicBtn.classList.toggle('playing', playing);
         }
 
-        // --- ANIMACIÓN INICIAL DEL SOBRE ---
+        function toggleMusic() {
+            if (isMusicPlaying) { bgMusic.pause(); setMusicUI(false); }
+            else { bgMusic.play(); setMusicUI(true); }
+        }
+
+        // --- SOBRE ---
         function openEnvelope() {
             const wrapper = document.querySelector('.envelope-wrapper');
             const screen = document.getElementById('envelope-screen');
             wrapper.classList.add('open');
-            
+
             setTimeout(() => {
                 screen.classList.add('fade-out');
                 document.body.classList.add('content-active');
-                
-                bgMusic.play().then(() => {
-                    isMusicPlaying = true;
-                    playIcon.style.display = 'none';
-                    pauseIcon.style.display = 'block';
-                }).catch(e => {
+                bgMusic.play().then(() => setMusicUI(true)).catch(() => {
                     console.log("El navegador bloqueó el autoplay de audio.");
-                    isMusicPlaying = false;
-                    playIcon.style.display = 'block';
-                    pauseIcon.style.display = 'none';
+                    setMusicUI(false);
                 });
             }, 1000);
         }
 
-        // --- INTERSECTION OBSERVER (Animaciones On-Scroll) ---
+        // --- ANIMACIONES AL HACER SCROLL ---
         document.addEventListener("DOMContentLoaded", () => {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.15 
-            };
-
-            const observer = new IntersectionObserver((entries, observer) => {
+            const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('in-view');
-                        observer.unobserve(entry.target);
+                        obs.unobserve(entry.target);
                     }
                 });
-            }, observerOptions);
-
+            }, { threshold: 0.15 });
             document.querySelectorAll('.anim-element').forEach(el => observer.observe(el));
+
+            // --- ESTRELLITAS FLOTANTES ---
+            const layer = document.getElementById('stars-layer');
+            const starPath = 'M12 0 L13.5 10.5 L24 12 L13.5 13.5 L12 24 L10.5 13.5 L0 12 L10.5 10.5 Z';
+            const total = window.innerWidth < 600 ? 14 : 24;
+            for (let i = 0; i < total; i++) {
+                const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                s.setAttribute('viewBox', '0 0 24 24');
+                s.setAttribute('class', 'float-star');
+                const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                p.setAttribute('d', starPath);
+                s.appendChild(p);
+                const size = 7 + Math.random() * 12;
+                s.style.width = size + 'px';
+                s.style.height = size + 'px';
+                s.style.left = (Math.random() * 100) + '%';
+                s.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
+                s.style.animationDuration = (14 + Math.random() * 16) + 's';
+                s.style.animationDelay = (-Math.random() * 30) + 's';
+                layer.appendChild(s);
+            }
+
+            // --- VISOR DE FOTOS ---
+            const photos = Array.from(document.querySelectorAll('.photo'));
+            const lb = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lb-img');
+            let current = 0;
+
+            function showPhoto(i) {
+                current = (i + photos.length) % photos.length;
+                lbImg.src = photos[current].src;
+            }
+            function openLb(i) { showPhoto(i); lb.classList.add('show'); lb.setAttribute('aria-hidden', 'false'); }
+            function closeLb() { lb.classList.remove('show'); lb.setAttribute('aria-hidden', 'true'); }
+
+            photos.forEach((img, i) => img.addEventListener('click', () => openLb(i)));
+            document.getElementById('lb-close').addEventListener('click', closeLb);
+            document.getElementById('lb-prev').addEventListener('click', e => { e.stopPropagation(); showPhoto(current - 1); });
+            document.getElementById('lb-next').addEventListener('click', e => { e.stopPropagation(); showPhoto(current + 1); });
+            lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+            document.addEventListener('keydown', e => {
+                if (!lb.classList.contains('show')) return;
+                if (e.key === 'Escape') closeLb();
+                if (e.key === 'ArrowLeft') showPhoto(current - 1);
+                if (e.key === 'ArrowRight') showPhoto(current + 1);
+            });
+            // Deslizar en móvil
+            let touchX = null;
+            lb.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+            lb.addEventListener('touchend', e => {
+                if (touchX === null) return;
+                const dx = e.changedTouches[0].clientX - touchX;
+                if (Math.abs(dx) > 50) showPhoto(current + (dx < 0 ? 1 : -1));
+                touchX = null;
+            });
         });
 
         // --- CUENTA REGRESIVA ---
         const eventDate = new Date("Dec 5, 2026 18:00:00").getTime();
         const countdownTimer = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = eventDate - now;
+            const distance = eventDate - new Date().getTime();
 
             if (distance < 0) {
                 clearInterval(countdownTimer);
@@ -761,21 +767,18 @@
             document.getElementById("secs").innerText = secs < 10 ? '0' + secs : secs;
         }, 1000);
 
-        // --- LÓGICA DEL SISTEMA DE PASES INVYTIA (?p=n) ---
+        // --- PASES (?p=n) ---
         let pasesAsignados = 0;
         const urlParams = new URLSearchParams(window.location.search);
         let parametroPases = urlParams.get('p') || urlParams.get('pases');
-
-        // Número de WhatsApp único para este evento
-        const waNumber = "526727230816"; 
+        const waNumber = "526727230816";
 
         if (parametroPases && !isNaN(parametroPases)) {
             pasesAsignados = parseInt(parametroPases);
         } else {
-            pasesAsignados = 10; // Fallback por defecto si no se ingresa parámetro
+            pasesAsignados = 10;
         }
 
-        // Mostrar boleto VIP si hay pases enviados por URL
         if (pasesAsignados > 0 && parametroPases) {
             const pasesSection = document.getElementById('pases-section');
             if (pasesSection) {
@@ -784,34 +787,32 @@
             }
         }
 
-        // Mostrar u ocultar el dropdown de cantidad de invitados según la respuesta
         const rsvpStatus = document.getElementById("rsvp-status");
         const rsvpGuests = document.getElementById("rsvp-guests");
 
         rsvpStatus.addEventListener('change', (e) => {
-            if(e.target.value === 'yes') {
+            if (e.target.value === 'yes') {
                 rsvpGuests.style.display = 'block';
                 rsvpGuests.innerHTML = '<option value="" disabled selected>¿Cuántas personas asisten?</option>';
-                for(let i = 1; i <= pasesAsignados; i++) {
+                for (let i = 1; i <= pasesAsignados; i++) {
                     rsvpGuests.innerHTML += `<option value="${i}">${i} persona${i > 1 ? 's' : ''}</option>`;
                 }
             } else {
                 rsvpGuests.style.display = 'none';
-                rsvpGuests.value = ""; // Reset
+                rsvpGuests.value = "";
             }
         });
 
-        // --- ENVÍO DE ASISTENCIA A WHATSAPP ---
+        // --- WHATSAPP ---
         function sendRSVP() {
             const name = document.getElementById("rsvp-name").value.trim();
             const status = document.getElementById("rsvp-status").value;
             const guests = document.getElementById("rsvp-guests").value;
-            
+
             if (name === "" || status === "") {
                 alert("Por favor, ingresa tu nombre y selecciona una opción de asistencia.");
                 return;
             }
-
             if (status === "yes" && guests === "") {
                 alert("Por favor, indica cuántas personas asistirán.");
                 return;
@@ -826,11 +827,10 @@
             window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank');
         }
 
-        // --- ENVÍO DE MENSAJE DE DESEOS A WHATSAPP ---
         function sendWish() {
             const name = document.getElementById("wish-name").value.trim();
             const wish = document.getElementById("wish-message").value.trim();
-            
+
             if (name === "" || wish === "") {
                 alert("Por favor, ingresa tu nombre y tu mensaje.");
                 return;
